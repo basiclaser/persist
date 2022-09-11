@@ -8,7 +8,7 @@
 <p align="center">
   <a href="#about">About</a> &#xa0; | &#xa0; 
   <a href="#quick-start">start</a> &#xa0; | &#xa0;
-  <a href="demo.com">demo</a> &#xa0; | &#xa0;
+  <a href="https://chris-0x73.github.io/persist/dist/demo.html">demo</a> &#xa0; | &#xa0;
   <a href="https://github.com/chris-0x73" target="_blank">Author</a>
 </p>
 
@@ -16,7 +16,12 @@
 
 ## About ##
 
-`persist` makes quick work of automatically storing input field values and loading them on page load - aka persisting inputs. **For now this is just some speculative reality. Feel free to use it and gimme some feedback though!**
+`persist` makes quick work of automatically storing input field values and loading them on page load - aka persisting inputs. 
+
+Check out the [demo](https://chris-0x73.github.io/persist/dist/demo.html).
+
+**For now this is just some speculative reality. I just need something dumb like this for a testing lots of phones. Feel free to use it and gimme some feedback though!**
+
 
 # quick start
 

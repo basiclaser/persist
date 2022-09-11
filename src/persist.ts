@@ -201,13 +201,8 @@ export function persist(options: PersistOptions = { namespace: "persist", showPe
     // 1 - get all persisted data from local storage
     const persistedData = getLocalStoragePersistRelatedData(options);
 
-
-
-
-
     // 2 - get all eligible fields
     const allEligibleFields = getAllEligibleFields(options);
-
 
     // 3 - hydrate, expire, highlight all fields with persist attribute
     allEligibleFields.forEach((field) => {
