@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>persist demo</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        #inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 1rem;
+            border: 1px solid #ccc;
+        }
+
+        .demo-inputs-grid-field {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        /* dynamic label color */
+        .demo-inputs-grid-field label {
+            color: var(--label-color);
+        }
+
+        label+input {
+            margin-top: 0.5rem;
+        }
+
+        input {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+        }
+
+        select {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+        }
+
+        label+select {
+            margin-top: 0.5rem;
+        }
+
+        select option {
+            padding: 0.5rem;
+        }
+
+        input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        input[type="color"] {
+            padding: 0;
+            width: 2rem;
+            height: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>persist inputs demo</h1>
+    <p>change the value of the input field and reload the page. Using <b>persist</b> with submit, image, reset, and
+        button inputs will have no effect. Using <b>persist</b> with
+        file inputs - persist will attempt to persist the file, but will not work in all
+        browsers.</p>
+    <div id="inputs-grid">
+        <div class="demo-inputs-grid-field"><label for="demo-checkbox">checkbox</label><input type="checkbox"></input>
+        </div>
+        <div class="demo-inputs-grid-field"><label for="demo-color">color</label><input type="color"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-date">date</label><input type="date"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-datetime-local">datetime-local</label><input
+                type="datetime-local"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-email">email</label><input type="email"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-file">file</label><input type="file"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-month">month</label><input type="month"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-number">number</label><input type="number"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-password">password</label><input type="password"></input>
+        </div>
+        <div class="demo-inputs-grid-field"><label for="demo-phone">phone</label><input type="phone"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-radio">radio</label><input type="radio"></input></div>
+        <!-- radio group -->
+        <div class="demo-inputs-grid-field"><label for="demo-radio-group">radio group</label>
+            <fieldset>
+                <legend>radio group</legend>
+                <input type="radio" name="radio-group" value="1" id="radio-group-1">
+                <label for="radio-group-1">1</label>
+                <input type="radio" name="radio-group" value="2" id="radio-group-2">
+                <label for="radio-group-2">2</label>
+                <input type="radio" name="radio-group" value="3" id="radio-group-3">
+                <label for="radio-group-3">3</label>
+        </div>
+
+        <div class="demo-inputs-grid-field"><label for="demo-range">range</label><input type="range"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-search">search</label><input type="search"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-select">select</label>
+            <select>
+                <option value="1">option 1</option>
+                <option value="2">option 2</option>
+                <option value="3">option 3</option>
+            </select>
+        </div>
+        <div class="demo-inputs-grid-field"><label for="demo-multiple-select">select</label>
+            <select multiple>
+                <option value="1">multiple option 1</option>
+                <option value="2">multiple option 2</option>
+                <option value="3">multiple option 3</option>
+            </select>
+        </div>
+        <div class="demo-inputs-grid-field"><label for="demo-tel">tel</label><input type="tel"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-text">text</label><input type="text"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-textarea">textarea</label><textarea></textarea></div>
+        <div class="demo-inputs-grid-field"><label for="demo-time">time</label><input type="time"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-url">url</label><input type="url"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-week">week</label><input type="week"></input></div>
+    </div>
+
+</body>
+<script>var exports = {};</script>
+
+<script>
+    function _fakePhoneNumber() {
+        return `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
+    }
+
+    function seedInputsWithRandomValues() {
+
+        const select = document.querySelector('select');
+        const options = select.querySelectorAll('option');
+        const randomOption = options[Math.floor(Math.random() * options.length)];
+        randomOption.selected = true;
+
+        const multipleSelect = document.querySelector('select[multiple]');
+        const multipleOptions = multipleSelect.querySelectorAll('option');
+        const randomMultipleOption = multipleOptions[Math.floor(Math.random() * multipleOptions.length)];
+        const randomMultipleOption2 = multipleOptions[Math.floor(Math.random() * multipleOptions.length)];
+
+        randomMultipleOption.selected = true;
+        randomMultipleOption2.selected = true;
+
+
+        const textarea = document.querySelector('textarea');
+        textarea.value = ["Lorem", "ipsum", "dolor", "sit", "amet,", "consectetur", "adipiscing", "elit,", "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore", "magna", "aliqua.", "Ut", "enim", "ad", "minim", "veniam,", "quis", "nostrud", "exercitation", "ullamco", "laboris", "nisi", "ut", "aliquip", "ex", "ea", "commodo", "consequat.", "Duis", "aute", "irure", "dolor", "in", "reprehenderit", "in", "voluptate", "velit", "esse", "cillum", "dolore", "eu", "fugiat", "nulla", "pariatur.", "Excepteur", "sint", "occaecat", "cupidatat", "non", "proident,", "sunt", "in", "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est", "laborum."].reduce((acc, word) => Math.random() > 0.5 ? acc + word + " " : acc, "");
+
+        const fieldSet = document.querySelector('fieldset');
+        const radioInputs = fieldSet.querySelectorAll('input[type="radio"]');
+        const randomRadioInput = radioInputs[Math.floor(Math.random() * radioInputs.length)];
+        randomRadioInput.checked = true;
+
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            const type = input.getAttribute('type');
+            switch (type) {
+                case 'password':
+                case 'search':
+                    input.value = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+                    break;
+                case 'email':
+                    input.value = `${Math.random().toString(36).substring(7)}@${Math.random().toString(36).substring(7)}.com`;
+                    break;
+                case 'url':
+                    input.value = `https://${Math.random().toString(36).substring(7)}.com`;
+                    break;
+                case 'tel':
+                case 'phone':
+                    input.value = _fakePhoneNumber();
+                    break;
+                case 'number':
+                    input.value = Math.floor(Math.random() * 100);
+                    break;
+                case 'date':
+                    input.value = new Date().toISOString().split('T')[0]
+                    break;
+                case 'datetime-local':
+                    input.value = new Date().toISOString().split('.')[0];
+                    break;
+                case 'month':
+                    input.value = new Date().toISOString().split('-')[0] + '-' + new Date().toISOString().split('-')[1];
+                    break;
+                case 'text':
+                    input.value = `the time is ${new Date().toLocaleTimeString()}`;
+                    break;
+                case 'time':
+                    input.value = new Date().toISOString().split('T')[1].split('.')[0];
+                    break;
+                case 'week':
+                    input.value = new Date().toISOString().split('T')[0].split('-')[0] + '-W' + new Date().toISOString().split('T')[0].split('-')[1];
+                    break;
+                case 'color':
+                    input.value = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    break;
+                case 'file':
+                    input.value = '';
+                    break;
+                case 'button':
+                    input.value = 'click me';
+                    break;
+                case 'checkbox':
+                case 'radio':
+                    input.checked = Math.random() > 0.5;
+                    break;
+                case 'range':
+                    input.value = Math.floor(Math.random() * 100);
+                    break;
+            }
+        });
+    };
+
+    const persistFirstRunDate = localStorage.getItem('persist--meta--firstRunDate')
+    console.log(persistFirstRunDate)
+    if (true || !persistFirstRunDate || persistFirstRunDate === 'undefined') {
+        localStorage.setItem('persist--meta--firstRunDate', new Date().toISOString())
+        seedInputsWithRandomValues();
+    }
+
+</script>
+<script type="module" src="index.js"></script>
+
+</html>

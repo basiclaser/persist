@@ -1,0 +1,31 @@
+{
+  "name": "persist",
+  "version": "1.0.0",
+  "description": "make your html forms persistent",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "http-server . -p 3000 & tsc --watch src/index.ts --outDir dist",
+    "copy": "copyfiles -u 1 src/*.html dist",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
+    "@types/node": "^14.14.31",
+    "copyfiles": "^2.4.1",
+    "http-server": "^0.12.3",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.2.3"
+  },
+  "keywords": [
+    "persist",
+    "typescript",
+    "node",
+    "html-form"
+  ],
+  "author": "chris-0x73",
+  "license": "ISC"
+}
