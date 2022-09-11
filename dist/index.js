@@ -1,1 +1,1 @@
-export { persist, PersistMode, VERSION, togglePersistmanager } from "./persist.js";
+export { persist, PersistMode, PERSIST_VERSION } from "./persist.js";

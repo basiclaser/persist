@@ -20,7 +20,7 @@
 
 # quick start
 
-add `persist` to any field to have its value persist between page loads. or just add `persist`to the body tag to persist the whole page.  
+add `persist` to any input, select, textarea field to have its value persist between page loads. or just add `persist`to the body tag to persist the whole page, or a form tag to persist the form.  
 ```
 <input persist type="text"></input>
 ```
@@ -30,12 +30,12 @@ add `persist` to any field to have its value persist between page loads. or just
 These tags are to be applied to the input field you want to persist.
 Support for form level and body level persistence is coming soon.
 
-## note about dynamic document bodies and separation of concerns 
-its recommended to provide a `data-persist-name` value on your fields, especially if you have dynamic document bodies.
+## separation of concerns 
+its recommended to provide a `persist-name` value on your fields, especially if you have dynamic document bodies.
 This will guard against name attribute changes breaking your persistence.
 
 ```
-<input persist data-persist-name="my-input" name="my-input-post-migration" type="text"></input>
+<input persist persist-name="my-input" name="my-input-post-migration" type="text"></input>
 ```
 If you omit this attribute, `persist` will use the `name` attribute as the key for persistence. 
 If the `name` attribute's not present, the css selector path will be used.
@@ -128,10 +128,8 @@ forget all stored values before a certain date
 
 
 
-
-
-
 # files ⚠️
+<h1 style="red">files dont work</h1>
 note about files: `persist` will store files as base64 strings.
 It goes without saying that this is not a good idea for large files.
 Consult the mozilla documentation to see how much data browsers can store in local storage.

@@ -6,11 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>persist demo</title>
-    <button id="seed-btn">seed random vals</button>
-    <button id="clear-btn">clear vals</button>
     <style>
         body {
             font-family: sans-serif;
+        }
+
+        header {
+            padding-top: 1em;
+            padding-bottom: 1em;
+            background-color: #eee;
         }
 
         #inputs-grid {
@@ -72,21 +76,29 @@
     </style>
 </head>
 
-<body>
-    <h1>persist inputs demo</h1>
-    <p>change the value of the input field and reload the page. Using <b>persist</b> with submit, image, reset, and
-        button inputs will have no effect. Using <b>persist</b> with
-        file inputs - persist will attempt to persist the file, but will not work in all
-        browsers.</p>
+<body persist>
+    <header>
+        <h1>persist demo</h1>
+        <p>change the value of the input field and reload the page. Using <b>persist</b> with submit, image, reset, and
+            button inputs will have no effect. Using <b>persist</b> with
+            file inputs - persist will attempt to persist the file, but will not work in all
+            browsers.
+        </p>
+        <button id="seed-btn">seed random vals</button>
+        <button id="clear-btn">clear vals</button>
+    </header>
     <div id="inputs-grid">
         <div class="demo-inputs-grid-field"><label for="demo-checkbox">checkbox</label>
-            <input persist type="checkbox"></input>
+            <input persist type="checkbox" name="demo-checkbox" id="demo-checkbox" persist-name="demo-checkbox"></input>
         </div>
-        <div class="demo-inputs-grid-field"><label for="demo-color">color</label><input type="color"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-color">color</label><input persist type="color"></input>
+        </div>
         <div class="demo-inputs-grid-field"><label for="demo-date">date</label><input type="date"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-datetime-local">datetime-local</label><input
                 type="datetime-local"></input></div>
-        <div class="demo-inputs-grid-field"><label for="demo-email">email</label><input type="email"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-email">email</label><input persist
+                persist-name="demo-email" name="demo-email" id="demo-email" type="email"></input>
+        </div>
         <div class="demo-inputs-grid-field"><label for="demo-file">file</label><input type="file"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-month">month</label><input type="month"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-number">number</label><input type="number"></input></div>
@@ -98,17 +110,17 @@
         <div class="demo-inputs-grid-field"><label for="demo-radio-group">radio group</label>
             <fieldset>
                 <legend>radio group</legend>
-                <input type="radio" name="radio-group" value="1" id="radio-group-1">
+                <input type="radio" name="radio-group-x" value="1" id="radio-group-x">
                 <label for="radio-group-1">1</label>
-                <input type="radio" name="radio-group" value="2" id="radio-group-2">
+                <input type="radio" name="radio-group-x" value="2" id="radio-group-x">
                 <label for="radio-group-2">2</label>
-                <input type="radio" name="radio-group" value="3" id="radio-group-3">
+                <input type="radio" name="radio-group-x" value="3" id="radio-group-x">
                 <label for="radio-group-3">3</label>
         </div>
         <div class="demo-inputs-grid-field"><label for="demo-range">range</label><input type="range"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-search">search</label><input type="search"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-select">select</label>
-            <select>
+            <select persist persist-name="select-thingy">
                 <option value="1">option 1</option>
                 <option value="2">option 2</option>
                 <option value="3">option 3</option>
@@ -122,7 +134,8 @@
             </select>
         </div>
         <div class="demo-inputs-grid-field"><label for="demo-tel">tel</label><input type="tel"></input></div>
-        <div class="demo-inputs-grid-field"><label for="demo-text">text</label><input type="text"></input></div>
+        <div class="demo-inputs-grid-field"><label for="demo-text">text</label><input persist type="text"></input>
+        </div>
         <div class="demo-inputs-grid-field"><label for="demo-textarea">textarea</label><textarea></textarea></div>
         <div class="demo-inputs-grid-field"><label for="demo-time">time</label><input type="time"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-url">url</label><input type="url"></input></div>

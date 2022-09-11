@@ -1,11 +1,12 @@
-import { persist, togglePersistmanager } from "./index.js";
+import { persist } from "./index.js";
 
 
 persist({
-    key: 'demo',
+    namespace: 'persist-demo',
     version: 1,
     verbose: true,
     cleanup: true,
     hide: false,
-    showPersistManager: false
+    showPersistManager: true,
+    highlight: true,
 })

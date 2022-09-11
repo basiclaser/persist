@@ -1,15 +1,16 @@
 export declare enum PersistMode {
     "persist-for" = 0,
     "persist-until" = 1,
-    "forget-between-versions" = 2,
-    "forget-before-date" = 3
+    "forget-between-versions" = 2
 }
 export interface PersistOptions {
+    namespace: string;
     verbose: boolean;
     cleanup: boolean;
-    hide: boolean;
     purge: boolean;
     showPersistManager: boolean;
+    version: string;
+    highlight: boolean;
 }
 export declare enum PersistSupportedFieldType {
     "number" = 0,
@@ -23,19 +24,18 @@ export declare enum PersistSupportedFieldType {
     "select[multiple]" = 8,
     "checkbox" = 9,
     "radio" = 10,
-    "file" = 11,
-    "text" = 12,
-    "range" = 13,
-    "datetime-local" = 14,
-    "month" = 15,
-    "password" = 16,
-    "search" = 17,
-    "tel" = 18,
-    "time" = 19,
-    "week" = 20
+    "text" = 11,
+    "range" = 12,
+    "datetime-local" = 13,
+    "month" = 14,
+    "password" = 15,
+    "search" = 16,
+    "tel" = 17,
+    "time" = 18,
+    "week" = 19
 }
 export declare function persistField(field: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, options: PersistOptions): void;
 export declare function persist(options?: PersistOptions): void;
-declare const VERSION = "1.0.0";
-export { VERSION };
-export declare function togglePersistmanager(): void;
+declare const PERSIST_VERSION = "1.0.0";
+export { PERSIST_VERSION };
+export declare function showPersistManager({ verbose }: PersistOptions): void;
