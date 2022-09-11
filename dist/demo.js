@@ -6,7 +6,6 @@ persist({
     version: 1,
     verbose: true,
     cleanup: true,
-    hide: false,
     showPersistManager: true,
     highlight: true,
 })

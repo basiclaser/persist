@@ -1,5 +1,5 @@
 
-<h1 align="center">persist</h1>
+<h1 align="center" style="border: 3px solid #7CFCaa">persist</h1>
 
 <p align="center">
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/chris-0x73/persist?color=56BEB8">
@@ -27,19 +27,35 @@ add `persist` to any input, select, textarea field to have its value persist bet
 
 
 # API
-These tags are to be applied to the input field you want to persist.
-Support for form level and body level persistence is coming soon.
 
-## separation of concerns 
+### initialise
+```
+persist({
+    namespace: 'persist-demo',
+    version: 1,
+    verbose: true,
+    cleanup: true,
+    showPersistManager: true,
+    highlight: true,
+})
+```
+
+
+### tag stuff up!
+apply <b>persist</b> to body,form,input,select,textarea tags to persist them.
+<b>persist-for</b>, <b>persist-until</b>, <b>forget-between-versions </b> only work on the input tag level
+
+## safely naming your inputs 
 its recommended to provide a `persist-name` value on your fields, especially if you have dynamic document bodies.
 This will guard against name attribute changes breaking your persistence.
 
 ```
 <input persist persist-name="my-input" name="my-input-post-migration" type="text"></input>
 ```
-If you omit this attribute, `persist` will use the `name` attribute as the key for persistence. 
-If the `name` attribute's not present, the css selector path will be used.
-
+The logic for determining input identifiers is as follows:
+```
+field.getAttribute("persist-name") || field.getAttribute("name") || field.getAttribute("id") || field.type || field.tagName.toLowerCase();
+```
 
 ## persist
 persist input values between page loads
@@ -65,75 +81,67 @@ forget all stored values when the version changes
 <input persist forget-between-versions type="text"></input>
 ```
 
-## forget-before-date
-forget all stored values before a certain date
-```
-<input persist forget-before-date="2021-12-31" type="text"></input>
-``` 
+
+## supported input types
 
 
-## supported input types table
-| input type | supported | notes |    |
-| --- | --- |
-| number | ✅ | 
-| date | ✅ | 
-| color | ✅ |
-| url | ✅ |
-| email | ✅ |
-| phone | ✅ |
-| textarea | ✅ |
-| select | ✅ |
-| select[multiple] | ✅ |
-| checkbox | ✅ |
-| radio | ✅ |
-| file | ✅ |
-| text | ✅ |
-| range | ✅ |
-| datetime-local | ✅ |
-| month | ✅ |
-| password | ✅ |
-| search | ✅ |
-| tel | ✅ |
-| time | ✅ |
-| week | ✅ |
+number  ✅  
 
+date  ✅  
 
+color  ✅ 
 
+url  ✅ 
 
+email  ✅ 
 
+phone  ✅ 
 
+textarea  ✅ 
 
+select  ✅ 
 
+select[multiple]  ✅ 
 
+checkbox  ✅ 
 
+radio  ✅ 
 
+radio group  🤔
 
+file  🤔 
 
+text  ✅ 
 
+range  ✅ 
 
+datetime-local  ✅ 
 
+month  ✅ 
 
+password  ✅ 
 
+search  ✅ 
 
+tel  ✅ 
 
+time  ✅ 
 
-
-
-
-
-
-
+week  ✅ 
 
 
 
 
 
 # files ⚠️
-<h1 style="red">files dont work</h1>
+<h1 style="color:red">files dont work</h1>
 note about files: `persist` will store files as base64 strings.
 It goes without saying that this is not a good idea for large files.
 Consult the mozilla documentation to see how much data browsers can store in local storage.
 link: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#storage_limits
+
+
+
 
 # browser support
 `persist` uses the `localStorage` api, which is supported by all modern browsers.
