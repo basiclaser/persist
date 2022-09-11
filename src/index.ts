@@ -1,1 +1,1 @@
-export { lol, persist, PersistMode, PersistOptions, VERSION } from "./persist";
+export { persist, PersistMode, PersistOptions, VERSION, togglePersistmanager } from "./persist.js";

@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>persist demo</title>
+    <button id="seed-btn">seed random vals</button>
+    <button id="clear-btn">clear vals</button>
     <style>
         body {
             font-family: sans-serif;
@@ -71,14 +73,14 @@
 </head>
 
 <body>
-
     <h1>persist inputs demo</h1>
     <p>change the value of the input field and reload the page. Using <b>persist</b> with submit, image, reset, and
         button inputs will have no effect. Using <b>persist</b> with
         file inputs - persist will attempt to persist the file, but will not work in all
         browsers.</p>
     <div id="inputs-grid">
-        <div class="demo-inputs-grid-field"><label for="demo-checkbox">checkbox</label><input type="checkbox"></input>
+        <div class="demo-inputs-grid-field"><label for="demo-checkbox">checkbox</label>
+            <input persist type="checkbox"></input>
         </div>
         <div class="demo-inputs-grid-field"><label for="demo-color">color</label><input type="color"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-date">date</label><input type="date"></input></div>
@@ -103,7 +105,6 @@
                 <input type="radio" name="radio-group" value="3" id="radio-group-3">
                 <label for="radio-group-3">3</label>
         </div>
-
         <div class="demo-inputs-grid-field"><label for="demo-range">range</label><input type="range"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-search">search</label><input type="search"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-select">select</label>
@@ -127,9 +128,8 @@
         <div class="demo-inputs-grid-field"><label for="demo-url">url</label><input type="url"></input></div>
         <div class="demo-inputs-grid-field"><label for="demo-week">week</label><input type="week"></input></div>
     </div>
-
 </body>
-<script>var exports = {};</script>
+
 
 <script>
     function _fakePhoneNumber() {
@@ -221,12 +221,18 @@
 
     const persistFirstRunDate = localStorage.getItem('persist--meta--firstRunDate')
     console.log(persistFirstRunDate)
-    if (true || !persistFirstRunDate || persistFirstRunDate === 'undefined') {
+    if (!persistFirstRunDate || persistFirstRunDate === 'undefined') {
         localStorage.setItem('persist--meta--firstRunDate', new Date().toISOString())
         seedInputsWithRandomValues();
     }
-
+    document.querySelector("#seed-btn").addEventListener('click', seedInputsWithRandomValues);
+    document.querySelector("#clear-btn").addEventListener('click', () => {
+        localStorage.setItem('persist--meta--firstRunDate', undefined)
+        location.reload();
+    });
 </script>
-<script type="module" src="index.js"></script>
+<script type="module" src="demo.js"></script>
+<script>
+</script>
 
 </html>

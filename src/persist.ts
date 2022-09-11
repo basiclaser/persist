@@ -1,7 +1,7 @@
 export enum PersistMode {
     "persist-for",
     "persist-until",
-    "forget-between-versions ",
+    "forget-between-versions",
     "forget-before-date",
 }
 
@@ -9,6 +9,8 @@ export interface PersistOptions {
     verbose: boolean;
     cleanup: boolean;
     hide: boolean;
+    purge: boolean;
+    showPersistManager: boolean;
 }
 
 export enum PersistSupportedFieldType {
@@ -37,6 +39,7 @@ export enum PersistSupportedFieldType {
 
 interface LocalStoragePersistField {
     value: string;
+    name: string;
     version: string;
     createdAt: Date;
     modifiedAt: Date;
@@ -44,114 +47,95 @@ interface LocalStoragePersistField {
     mode: PersistMode;
 }
 
-// show user all data as JSON in a popup 
-function showAllData() {
-    const data = getLocalStoragePersistRelatedData;
-    const dataString = JSON.stringify(data, null, 2);
-    alert(dataString);
+function verbalise(...args: any[]) {
+    console.log("persist verbose mode: ", ...args)
 }
 
+export function persistField(field: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, options: PersistOptions) {
+    localStorage.setItem(field.id, JSON.stringify({
+        value: field.value,
+        version: VERSION,
+        createdAt: new Date(),
+        modifiedAt: new Date(),
+        originalFieldType: field.type,
+        mode: field.dataset.persistMode,
+    }));
+}
 
-function getLocalStoragePersistRelatedData(): LocalStoragePersistField[] {
+function getLocalStoragePersistRelatedData({ verbose }: PersistOptions): LocalStoragePersistField[] {
     const allValidKeys = Object.keys(localStorage).filter((key) => {
-        return key.startsWith("persist-");
+        return key.startsWith("persist--data--");
     });
     const allValidValues = allValidKeys.map((key) => {
         const value = localStorage.getItem(key);
         if (value) {
-            return JSON.parse(value);
+            return JSON.parse(value as string) as LocalStoragePersistField;
         }
         return null;
     })
-    return allValidValues.filter((value) => value !== null) as LocalStoragePersistField[];
+    verbose && verbalise("all persisted values", allValidValues)
+    return allValidValues
 }
 
-function getAllEligibleFields(): HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement[] {
-    return Array.from(document.querySelectorAll("input, textarea, select"));
+function getAllEligibleFields({ verbose }: PersistOptions): HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement[] {
+    const allEligbleHTMLFields: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement[] = Array.from(document.querySelectorAll("input, textarea, select"));
+    verbose && verbalise("all eligible fields", allEligbleHTMLFields)
+
+    return allEligbleHTMLFields;
 }
 
-export function persist(options: PersistOptions = { verbose: false, cleanup: true, hide: false }) {
-    const { verbose, cleanup, hide } = options;
+export function persist(options: PersistOptions = { showPersistManager: false, verbose: false, cleanup: true, hide: false, purge: false }) {
+    options.verbose && verbalise("hi")
 
-    // 1 - get all persisted data from local storage
-    const persistedData = getLocalStoragePersistRelatedData();
+    const { verbose, cleanup, purge, hide } = options;
 
-    // 2 - get all fields from the DOM
-    const allFields = getAllEligibleFields();
-
-    // 3 - if cleanup is true, remove all persisted data from local storage
-
-    const initialStateFromLocalStorage = Object.keys(localStorage).reduce((acc, key) => {
-        const value = localStorage.getItem(key);
-        if (value) {
-            try {
-                const { value: v, version, mode } = JSON.parse(value) as LocalStoragePersistField;
-                if (mode === PersistMode["persist-until"]) {
-                    if (version === VERSION) {
-                        acc[key] = v;
-                    }
-                } else if (mode === PersistMode["persist-for"]) {
-                    if (version === VERSION) {
-                        acc[key] = v;
-                    } else {
-                        localStorage.removeItem(key);
-                    }
-                } else if (mode === PersistMode["forget-before-date"]) {
-                    const date = new Date(version);
-                    if (date > new Date()) {
-                        acc[key] = v;
-                    } else {
-                        localStorage.removeItem(key);
-                    }
-                } else if (mode === PersistMode["forget-between-versions"]) {
-                    const [from, to] = version.split("-");
-                    if (from <= VERSION && VERSION <= to) {
-                        acc[key] = v;
-                    } else {
-                        localStorage.removeItem(key);
-                    }
-                }
-            } catch (e) {
-
+    // 0 - if purge is true, remove all persist data
+    if (purge) {
+        Object.keys(localStorage).forEach((key) => {
+            if (key.startsWith("persist--data--") || key.startsWith("persist--meta--")) {
+                localStorage.removeItem(key);
             }
         }
-        return acc;
-    }, {} as { [key: string]: string });
-
-    if (verbose) {
-        console.log("persist is in verbose mode");
     }
 
-    // check document for any persist attributes
-    // if there is a persist tag, check if the tag is a persist-for or persist-until tag
-    // if it is a persist-for or persist-until tag, check if the tag is a valid tag
-    document.querySelectorAll('[persist]').forEach((element) => {
-        const persistTag = element.getAttribute('persist')
+    // 1 - get all persisted data from local storage
+    const persistedData = getLocalStoragePersistRelatedData(options);
 
-        if (persistTag !== null) {
-            const persistAttributes = element.attributes as unknown as PersistMode
+    // 2 - get all eligible fields from the DOM
+    const allEligbleFields = getAllEligibleFields(options);
 
-            if (persistAttributes['persist-for'] !== undefined) {
-                const persistFor = persistAttributes['persist-for']
+    // 3 - hydrate all fields with persist attribute if hide is not true
+    if (!hide) {
+        allEligbleFields.forEach((field) => {
 
-            } else if (persistAttributes['persist-until'] !== undefined) {
-                const persistUntil = persistAttributes['persist-until']
-                if (persistUntil === 'session') {
-                    // persist until session
-                } else if (persistUntil === 'version') {
-                    // persist until version
-                } else if (persistUntil === 'forever') {
-                    // persist forever
+            const persist = field.attributes.getNamedItem("persist");
+            if (persist) {
+                const persistData = persistedData.find((data) => data.originalFieldType === field.type && data.mode === persist.value);
+                if (persistData) {
+                    field.value = persistData.value;
                 }
             }
-        }
-    })
+
+        });
+    }
+
+    // 4 - start listening to changes on all fields with persist attribute
+
+
+
+    // 4 - if cleanup is true, remove all data which has expired or is older than the current version
+    if (cleanup) {
+        persistedData.forEach((data) => {
+            localStorage.removeItem(data.id);
+        })
+    }
+
+
 }
 
 const VERSION = "1.0.0";
 export { VERSION };
 
-
-export function lol() {
-    console.log("qwoidjqwoidjqodjdwoij")
+export function togglePersistmanager() {
+    // show persist manager
 }
