@@ -1,2 +1,2 @@
-export declare function showHelpWidget(): void;
-export declare function showExportModal(): void;
+import { PersistOptions } from "./persist.js";
+export declare function showPersistManager(persistOptions: PersistOptions): void;

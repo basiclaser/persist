@@ -34,8 +34,16 @@ export declare enum PersistSupportedFieldType {
     "time" = 18,
     "week" = 19
 }
+export interface LocalStoragePersistField {
+    value: string | number | boolean;
+    name: string;
+    version: string;
+    createdAt: number;
+    modifiedAt: number;
+}
+export declare function verbalise(...args: any[]): void;
 export declare function persistField(field: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, options: PersistOptions): void;
+export declare function getLocalStoragePersistRelatedData(persistOptions?: PersistOptions): LocalStoragePersistField[];
 export declare function persist(options?: PersistOptions): void;
 declare const PERSIST_VERSION = "1.0.0";
 export { PERSIST_VERSION };
-export declare function showPersistManager({ verbose }: PersistOptions): void;

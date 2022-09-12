@@ -1,8 +1,8 @@
 {
-  "name": "persist",
-  "version": "1.0.0",
+  "name": "persist-html",
+  "version": "1.0.2",
   "description": "make your html forms persistent",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "dev": "http-server . -p 3000 & tsc --watch",
