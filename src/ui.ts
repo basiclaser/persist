@@ -2,7 +2,7 @@ import {
     PersistOptions,
     verbalise,
     getLocalStoragePersistRelatedData
-} from "./persist.js";
+} from "./index.js";
 
 export function showPersistManager(persistOptions: PersistOptions) {
     const persistWrapperMarkup = `

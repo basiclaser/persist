@@ -1,2 +1,2 @@
-import { PersistOptions } from "./persist.js";
+import { PersistOptions } from "./index.js";
 export declare function showPersistManager(persistOptions: PersistOptions): void;

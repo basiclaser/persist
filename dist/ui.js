@@ -1,4 +1,4 @@
-import { verbalise, getLocalStoragePersistRelatedData } from "./persist.js";
+import { verbalise, getLocalStoragePersistRelatedData } from "./index.js";
 export function showPersistManager(persistOptions) {
     const persistWrapperMarkup = `
         <div class="persist-manager__button" style="position: fixed; right:20px; bottom:20px">
